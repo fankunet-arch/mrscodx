@@ -192,9 +192,12 @@ async function onBatchChange(e) {
 
     if (!batchId) {
         state.currentBatchId = null;
-        document.getElementById('batch-stats').style.display = 'none';
-        document.getElementById('operation-section').style.display = 'none';
-        document.getElementById('input-section').style.display = 'none';
+        const batchStats = document.getElementById('batch-stats');
+        const operationSection = document.getElementById('operation-section');
+        const inputSection = document.getElementById('input-section');
+        if (batchStats) batchStats.style.display = 'none';
+        if (operationSection) operationSection.style.display = 'none';
+        if (inputSection) inputSection.style.display = 'none';
         return;
     }
 
@@ -210,27 +213,37 @@ async function onBatchChange(e) {
     });
 
     // 显示操作选择区域
-    document.getElementById('batch-stats').style.display = 'flex';
-    document.getElementById('operation-section').style.display = 'block';
-    document.getElementById('input-section').style.display = 'none';
+    const batchStats = document.getElementById('batch-stats');
+    const operationSection = document.getElementById('operation-section');
+    const inputSection = document.getElementById('input-section');
+    if (batchStats) batchStats.style.display = 'flex';
+    if (operationSection) operationSection.style.display = 'block';
+    if (inputSection) inputSection.style.display = 'none';
 
     await refreshHistoryFromServer();
 }
 
 // 更新批次统计
 function updateBatchStats(stats) {
-    document.getElementById('stat-total').textContent = stats.total_count;
-    document.getElementById('stat-verified').textContent = stats.verified_count;
-    document.getElementById('stat-counted').textContent = stats.counted_count;
-    document.getElementById('stat-adjusted').textContent = stats.adjusted_count;
+    const statTotal = document.getElementById('stat-total');
+    const statVerified = document.getElementById('stat-verified');
+    const statCounted = document.getElementById('stat-counted');
+    const statAdjusted = document.getElementById('stat-adjusted');
+
+    if (statTotal) statTotal.textContent = stats.total_count;
+    if (statVerified) statVerified.textContent = stats.verified_count;
+    if (statCounted) statCounted.textContent = stats.counted_count;
+    if (statAdjusted) statAdjusted.textContent = stats.adjusted_count;
 
     // 更新进度条
     const progress = stats.total_count > 0
         ? Math.round((stats.verified_count / stats.total_count) * 100)
         : 0;
 
-    document.getElementById('progress-fill').style.width = progress + '%';
-    document.getElementById('progress-text').textContent = progress + '%';
+    const progressFill = document.getElementById('progress-fill');
+    const progressText = document.getElementById('progress-text');
+    if (progressFill) progressFill.style.width = progress + '%';
+    if (progressText) progressText.textContent = progress + '%';
 }
 
 // 刷新批次列表
@@ -283,13 +296,14 @@ function selectOperation(operation) {
         'adjust': '调整'
     };
 
-    document.getElementById('operation-name').textContent = operationNames[operation];
+    const operationName = document.getElementById('operation-name');
+    if (operationName) operationName.textContent = operationNames[operation];
 
     // 显示/隐藏相应的备注输入框
-    document.getElementById('products-group').style.display =
-        operation === 'count' ? 'block' : 'none';
-    document.getElementById('adjustment-note-group').style.display =
-        operation === 'adjust' ? 'block' : 'none';
+    const productsGroup = document.getElementById('products-group');
+    const adjustmentNoteGroup = document.getElementById('adjustment-note-group');
+    if (productsGroup) productsGroup.style.display = operation === 'count' ? 'block' : 'none';
+    if (adjustmentNoteGroup) adjustmentNoteGroup.style.display = operation === 'adjust' ? 'block' : 'none';
 
     // 如果是清点操作,初始化至少一个产品项
     if (operation === 'count') {
@@ -297,10 +311,12 @@ function selectOperation(operation) {
     }
 
     // 显示输入区域
-    document.getElementById('input-section').style.display = 'block';
+    const inputSection = document.getElementById('input-section');
+    if (inputSection) inputSection.style.display = 'block';
 
     // 聚焦到输入框
-    document.getElementById('tracking-input').focus();
+    const trackingInput = document.getElementById('tracking-input');
+    if (trackingInput) trackingInput.focus();
 
     // [FIX] 切换操作类型时，立即刷新并筛选历史记录
     displayHistory();

@@ -202,6 +202,10 @@ $total_boxes = array_sum(array_column($inventory, 'total_boxes'));
             if (!confirmed) return;
 
             const packageSelect = document.getElementById('package-select');
+            if (!packageSelect || !packageSelect.selectedOptions || packageSelect.selectedOptions.length === 0) {
+                await showAlert('请选择要出库的包裹', '错误', 'error');
+                return;
+            }
             const selectedOption = packageSelect.selectedOptions[0];
             const ledgerId = parseInt(selectedOption.value, 10);
             const availableQty = parseFloat(selectedOption.dataset.qty || '0');
@@ -266,7 +270,9 @@ $total_boxes = array_sum(array_column($inventory, 'total_boxes'));
     // 根据选择的包裹更新提示
     document.addEventListener('change', function(event) {
         if (event.target && event.target.id === 'package-select') {
-            const option = event.target.selectedOptions[0];
+            const option = (event.target.selectedOptions && event.target.selectedOptions.length > 0)
+                ? event.target.selectedOptions[0]
+                : null;
             const qty = option ? parseFloat(option.dataset.qty || '0') : 0;
             const tip = document.getElementById('available-tip');
             if (tip) {

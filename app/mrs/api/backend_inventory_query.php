@@ -3,6 +3,26 @@
  * MRS Inventory Query
  * Route: api.php?route=backend_inventory_query
  * Logic: Total Inbound (Confirmed) - Total Outbound (Confirmed)
+ *
+ * ⚠️ WARNING - CRITICAL DATABASE ISSUES:
+ * 1. This file references tables that DO NOT EXIST in the database:
+ *    - mrs_batch_confirmed_item (line 30)
+ *    - mrs_outbound_order (line 39)
+ *    - mrs_outbound_order_item (line 38)
+ *    - mrs_inventory_adjustment (line 48)
+ * 2. Calls undefined function: get_sku_by_id() (line 59)
+ *
+ * STATUS: ❌ NON-FUNCTIONAL - Will cause runtime errors if called
+ *
+ * RECOMMENDED ACTIONS:
+ * - Option A: Create missing database tables
+ * - Option B: Refactor to use existing tables (mrs_package_ledger, mrs_usage_log)
+ * - Option C: Use existing inventory functions from mrs_lib.php:
+ *   - mrs_get_inventory_summary()
+ *   - mrs_get_true_inventory_summary()
+ *
+ * See SYSTEM_HEALTH_REPORT.md for details.
+ * Last checked: 2025-12-15
  */
 
 if (!defined('MRS_ENTRY')) {
