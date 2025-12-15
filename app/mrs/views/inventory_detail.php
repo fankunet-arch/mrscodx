@@ -549,7 +549,7 @@ $packages = mrs_get_true_inventory_detail($pdo, $product_name, $order_by);
         }
 
         if (deductQty > availableQty) {
-            await showAlert(\`出货数量（\${deductQty}）超过库存（\${availableQty}）\`, '错误', 'error');
+            await showAlert(`出货数量（${deductQty}）超过库存（${availableQty}）`, '错误', 'error');
             return;
         }
 
@@ -583,7 +583,7 @@ $packages = mrs_get_true_inventory_detail($pdo, $product_name, $order_by);
 
             if (data.success) {
                 await showAlert(
-                    \`拆零出货成功！\\n\\n已从包裹中扣减 \${deductQty} 件\\n剩余 \${data.data.remaining_qty} 件\\n目的地：\${destination}\`,
+                    `拆零出货成功！\n\n已从包裹中扣减 ${deductQty} 件\n剩余 ${data.data.remaining_qty} 件\n目的地：${destination}`,
                     '成功',
                     'success'
                 );
